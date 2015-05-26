@@ -49,8 +49,10 @@ Password:
 Complete Uploading => https://www.swipe.to/edit/00000000000000000000000000000000
 ```
 
-Markdown
-========
+Rules
+=====
+
+* Markdown file in Gists must be named `slide.md`
 
 * headers must be written in underline-ish style
 
