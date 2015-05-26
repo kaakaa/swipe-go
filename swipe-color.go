@@ -27,7 +27,6 @@ func Color(contents []byte) (s []byte){
 	for _, p := range pages {
 		// 見出し（Markdownの "====" ）を見つけたらデザインを変更する
 		if m, _ := regexp.MatchString("={2,}",p); m {
-			fmt.Print(m)
 			design = designd(t,keys)
 		}
 

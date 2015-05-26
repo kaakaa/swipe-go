@@ -1,15 +1,15 @@
 swipe-go
 ========
 
-Markdown slide maker
+Create Swipe.to slide from Gists markdown file.
 
 * Uploading Markdown in [Gists](https://gist.github.com/ "Gists") to [Swipe.to](https://www.swipe.to/markdown/ "Swipe.to")
 
 Example
 =======
 
-* [swipe-go](https://gist.github.com/kaakaa/29ceacc3a8fa7b86f6bd "swipe-go") transforms to [New deck - Swipe](https://www.swipe.to/8563ch "New deck - Swipe")
-  * including many bugs...
+* This [gists markdown](https://gist.github.com/kaakaa/29ceacc3a8fa7b86f6bd "gists markdown") transforms to [New deck - Swipe](https://www.swipe.to/8563ch "New deck - Swipe")
+  * but including many bugs...
 
 Usage
 =====
@@ -49,4 +49,35 @@ Password:
 Complete Uploading => https://www.swipe.to/edit/00000000000000000000000000000000
 ```
 
+Markdown
+========
 
+* headers must be written in underline-ish style
+
+```
+OK
+
+  H1
+  ==
+```
+
+```
+NG
+
+  # H1
+```
+
+* Horizontal must be written in Asterisks style
+
+```
+
+OK
+
+  * * *
+```
+
+```
+NG
+
+  ---
+```
