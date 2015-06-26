@@ -2,7 +2,6 @@ package swipe
 
 import (
 	"bytes"
-	"fmt"
 	"regexp"
 	"strings"
 	"math/rand"
@@ -24,13 +23,15 @@ func Color(contents []byte) (s []byte){
 
 	design := designd(t,keys)
 	var buffer bytes.Buffer	
-	for _, p := range pages {
+	for i, p := range pages {
 		// 見出し（Markdownの "====" ）を見つけたらデザインを変更する
-		if m, _ := regexp.MatchString("={2,}",p); m {
+		if m, _ := regexp.MatchString("={4,}",p); m {
 			design = designd(t,keys)
 		}
 
-		buffer.WriteString(sep)
+		if i != 0 {
+			buffer.WriteString(sep)
+		}
 		buffer.WriteString(design)
 		buffer.WriteString(p)
 	}
@@ -47,74 +48,92 @@ func templates()(m map[string]string) {
 			"Stedelijk" : `
 <!-- background: #ffffeb -->
 <!-- color: #ff0000 -->
-<!-- font: helvetica -->`,
+<!-- font: helvetica -->
+`,
 		"MOCAK" : `
 <!-- background: #92117e -->
 <!-- color: #ffd595 -->
-<!-- font: verdana -->`,
+<!-- font: verdana -->
+`,
 		"ReinaSofia" : `
 <!-- background: #9bd1e7 -->
 <!-- color: #72003c -->
-<!-- font: tradegothic -->`,
+<!-- font: tradegothic -->
+`,
 		"Pompidou" : `
 <!-- background: #e4dadf -->
 <!-- color: #774c43 -->
-<!-- font: univers -->`,
+<!-- font: univers -->
+`,
 		"CCBB" : `
 <!-- background: #f1f16d -->
 <!-- color: #0d1c8b -->
-<!-- font: frutiger -->`,
+<!-- font: frutiger -->
+`,
 		"SMAK" : `
 <!-- background: #00acec -->
 <!-- color: #fff -->
-<!-- font: din -->`,
+<!-- font: din -->
+`,
 		"LONDON" : `
 <!-- background: #6e391b -->
 <!-- color: #fff28c -->
-<!-- font: centurygothic -->`,
+<!-- font: centurygothic -->
+`,
 		"Oslo" : `
 <!-- background: #50b187 -->
 <!-- color: #fff -->
-<!-- font: monaco -->`,
+<!-- font: monaco -->
+`,
 		"Amsterdam" : `
 <!-- background: red -->
 <!-- color: #fff -->
-<!-- font: frutiger -->`,
+<!-- font: frutiger -->
+`,
 		"HongKong" : `
 <!-- background: #e9ca77 -->
 <!-- color: #9f031e -->
-<!-- font: futura -->`,
+<!-- font: futura -->
+`,
 		"Split" : `
 <!-- background: #c8e4f6 -->
 <!-- color: #15025e -->
-<!-- font: brandon -->`,
+<!-- font: brandon -->
+`,
 		"Marrakech" : `
 <!-- background: #f8ebe5 -->
 <!-- color: #a10318 -->
-<!-- font: metronova -->`,
+<!-- font: metronova -->
+`,
 		"SigmarPolke" : `
 <!-- background: #14174a -->
 <!-- color: #ffc8d9 -->
-<!-- font: din -->`,
+<!-- font: din -->
+`,
 		"DavidHockney" : `
 <!-- background: #fffa28 -->
 <!-- color: #25a9ce -->
-<!-- font: centurygothic -->`,
+<!-- font: centurygothic -->
+`,
 		"PabloPicasso" : `
 <!-- background: #e75e05 -->
 <!-- color: #ffd5fd -->
-<!-- font: sabon -->`,
+<!-- font: sabon -->
+`,
 		"SalvadorDali" : `
 <!-- background: #ffb205 -->
 <!-- color: #a10100 -->
-<!-- font: metronova -->`,
+<!-- font: metronova -->
+`,
 		"JacksonPollock" : `
 <!-- background: #000100 -->
 <!-- color: #feffd4 -->
-<!-- font: rockwell -->`,
+<!-- font: rockwell -->
+`,
 		"BarbaraHepworth" : `
 <!-- background: #6f6f6f -->
 <!-- color: #fff -->
-<!-- font: univers -->`,
+<!-- font: univers -->
+`,
 	}
 }

@@ -86,6 +86,7 @@ func PostSwipeSlide(file *os.File) {
 	// Create Doc
 	id, _ := CreateDoc(client)
 
+	fmt.Println("id: ", id)
 	// Upload Markdown
 	b, contenttype, _ := CreateMultipartBody(file, id)
 	if err = PostSlideFile(client, b, contenttype, id); err != nil {
@@ -106,7 +107,7 @@ func Login(email string, pass string) (client *http.Client, err error) {
 	}
 
 	// Login to swipe.to
-	var str = []byte("Email=" + url.QueryEscape(email) + "&" + "Password=" + pass)
+	var str = []byte("email=" + url.QueryEscape(email) + "&" + "password=" + pass)
 	req, _ := http.NewRequest("POST", "https://www.swipe.to/login", bytes.NewBuffer(str))
 	req.Header.Set("Referer", "https://www.swipe.to/home")
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
@@ -124,7 +125,7 @@ func CreateDoc(client *http.Client) (id string, err error){
 	req.Header.Set("Referer", "https://www.swipe.to/home")
 	res, err2 := client.Do(req) 
 	if err2 != nil {
-		println("err res")
+		panic(err2)
 	}
 	defer res.Body.Close()
 
