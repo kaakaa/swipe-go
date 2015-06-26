@@ -8,7 +8,7 @@ Create Swipe.to slide from Gists markdown file.
 Example
 =======
 
-* This [gists markdown](https://gist.github.com/kaakaa/29ceacc3a8fa7b86f6bd "gists markdown") transforms to [New deck - Swipe](https://www.swipe.to/8563ch "New deck - Swipe")
+* This [gists markdown](https://gist.github.com/kaakaa/29ceacc3a8fa7b86f6bd "gists markdown") transforms to [New deck - Swipe](https://www.swipe.to/0016ck)
   * but including many bugs...
 
 Usage
