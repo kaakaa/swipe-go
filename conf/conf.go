@@ -46,7 +46,7 @@ func Parse(path string) (Config, error) {
 	c, err := ioutil.ReadFile(path)
 	if err != nil {
 		msg := ansi.Color("info: %s \n", "grey+b")
-		fmt.Printf(msg, path, err)
+		fmt.Printf(msg, err)
 		return conf, err
 	}
 

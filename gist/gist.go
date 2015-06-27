@@ -29,23 +29,28 @@ func scan(defaultValue string) string{
 
 func (g *Gist) GetGistCode(conf conf.Config) ([]byte, error) {
 	// Make Gist document URL
-	fmt.Printf("Gist User ID(default: %s)? ", conf.Gist.User)
+	msg := ansi.Color("Gist Document Infomation", "blue+b")
+	fmt.Println(msg)
+	
+	fmt.Printf("  Gist User ID(default: %s)? ", conf.Gist.User)
 	g.user = scan(conf.Gist.User)
 
-	fmt.Printf("Gist Document ID(default: %s)? ", conf.Gist.DocId)
+	fmt.Printf("  Gist Document ID(default: %s)? ", conf.Gist.DocId)
 	g.id = scan(conf.Gist.DocId)
 	
 	url := fmt.Sprintf(UrlTemplate, g.user, g.id, conf.Gist.FileName)
 
-	println("Downloading Gist File => " + url)
+	fmt.Println("")
+	fmt.Printf("info: Downloading Gist File '%s'\n",url)
 
 	// Download Gist document to temp file
 	res, _ := http.Get(url)
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-		msg := ansi.Color("Error: Gist File NotFound\n  => " + url, "red+b")
-		return nil, fmt.Errorf(msg)
+		msg := ansi.Color("error: cannot get Gist file '%s'\nerror: status code %d\n", "red+b")
+		fmt.Printf(msg, url, res.StatusCode)
+		return nil, fmt.Errorf("Gist file download error %d", res.StatusCode)
 	}
 
 	return ioutil.ReadAll(res.Body)
@@ -64,12 +69,13 @@ func (g *Gist) Download(conf conf.Config) (f *os.File, err error) {
 	f, _ = ioutil.TempFile(os.TempDir(), conf.Gist.FileName)
 	defer os.Remove(f.Name())
 	if err = ioutil.WriteFile(f.Name(), contents, 0755); err != nil {
-		msg := ansi.Color("Error: Gist File cannot Download\n", "red+b")
-		return nil, fmt.Errorf(msg)
+		msg := ansi.Color("Error: Gist File cannot Download \nerror: %s", "red+b")
+		fmt.Printf(msg, err)
+		return nil, err
 	}
 
 	size, _ := f.Stat()
-	fmt.Printf("Complete downloading (%d Bytes)\n\n", size.Size())
+	fmt.Printf("Complete Downloading (%d Bytes)\n\n", size.Size())
 	return f, nil
 }
 
