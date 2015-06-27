@@ -78,4 +78,3 @@ func (g *Gist) Download(conf conf.Config) (f *os.File, err error) {
 	fmt.Printf("Complete Downloading (%d Bytes)\n\n", size.Size())
 	return f, nil
 }
-

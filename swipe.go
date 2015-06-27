@@ -16,6 +16,28 @@ import (
 	"github.com/howeyc/gopass"
 )
 
+type Swipe struct {
+	HomeUrl string
+	LoginUrl string
+	EditUrl string
+	CreateUrl string
+	UploadUrl string
+}
+
+type doc struct {
+	Id	string
+}
+
+var (
+	swipeInfo = Swipe {
+		HomeUrl : "https://www.swipe.to/home",
+		LoginUrl: "https://www.swipe.to/login",
+		EditUrl: "https://www.swipe.to/edit",
+		CreateUrl: "https://www.swipe.to/edit/create",
+		UploadUrl: "https://www.swipe.to/edit/upload",
+	}
+)
+
 func SwipeUpload() {
 	conf, _ := conf.Parse("conf.json")
 
@@ -53,7 +75,7 @@ func PostSwipeSlide(file *os.File) {
 	}
 
 	// result
-	println("Complete Uploading => https://www.swipe.to/edit/" + id)
+	fmt.Printf("Complete Uploading '%s/%s'\n", swipeInfo.EditUrl, id)
 }
 
 func Login(email string, pass string) (client *http.Client, err error) {
@@ -65,21 +87,17 @@ func Login(email string, pass string) (client *http.Client, err error) {
 
 	// Login to swipe.to
 	var str = []byte("email=" + url.QueryEscape(email) + "&" + "password=" + pass)
-	req, _ := http.NewRequest("POST", "https://www.swipe.to/login", bytes.NewBuffer(str))
-	req.Header.Set("Referer", "https://www.swipe.to/home")
+	req, _ := http.NewRequest("POST", swipeInfo.LoginUrl, bytes.NewBuffer(str))
+	req.Header.Set("Referer", swipeInfo.HomeUrl)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	client.Do(req)
 	return client, nil
 }
 
-type doc struct {
-	Id	string
-}
-
 func CreateDoc(client *http.Client) (id string, err error){
-	req, _ := http.NewRequest("POST", "https://www.swipe.to/edit/create", nil)
-	req.Header.Set("Referer", "https://www.swipe.to/home")
+	req, _ := http.NewRequest("POST", swipeInfo.CreateUrl, nil)
+	req.Header.Set("Referer", swipeInfo.HomeUrl)
 	res, err2 := client.Do(req)
 	if err2 != nil {
 		panic(err2)
@@ -95,9 +113,9 @@ func CreateDoc(client *http.Client) (id string, err error){
 }
 
 func PostSlideFile(client *http.Client, b *bytes.Buffer, contenttype string, id string) (e error){
-	req, _ := http.NewRequest("POST", "https://www.swipe.to/edit/upload", b)
+	req, _ := http.NewRequest("POST", swipeInfo.UploadUrl, b)
 	req.Header.Set("Content-Type", contenttype)
-	req.Header.Set("Referer", "https://www.swipe.to/edit/" + id)
+	req.Header.Set("Referer", swipeInfo.EditUrl + "/" + id)
 
 	res, err := client.Do(req)
 	if err != nil {
@@ -137,4 +155,3 @@ func CreateMultipartBody(file *os.File, id string)(b *bytes.Buffer, contenttype 
 	w.Close()
 	return b, w.FormDataContentType(), nil
 }
-
