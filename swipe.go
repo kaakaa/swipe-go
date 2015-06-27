@@ -42,15 +42,15 @@ func GetGistCode() (f *os.File, err error) {
 		return nil, fmt.Errorf(msg)
 	}
 
-    // Write Gists Markdown to temp file
+	// Write Gists Markdown to temp file
 	f, _ = ioutil.TempFile(os.TempDir(), SlideFileName)
 	defer os.Remove(f.Name())
 
 	contents, _ := ioutil.ReadAll(res.Body)
-	
+
 	// coloring
 	contents = Color(contents)
-	
+
 	if err = ioutil.WriteFile(f.Name(), contents, 0755); err != nil {
 		msg := ansi.Color("Error: Gist File cannot Download\n  => " + gist, "red+b")
 		return nil, fmt.Errorf(msg)
