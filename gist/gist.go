@@ -63,7 +63,9 @@ func (g *Gist) Download(conf conf.Config) (f *os.File, err error) {
 	}
 
 	// coloring
-	contents = Color(contents)
+	if conf.Swipe.Coloring {
+		contents = Color(contents)
+	}
 
 	// Write Gists Markdown to temp file
 	f, _ = ioutil.TempFile(os.TempDir(), conf.Gist.FileName)

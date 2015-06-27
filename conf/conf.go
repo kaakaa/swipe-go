@@ -20,7 +20,6 @@ type Gist struct {
 
 type Swipe struct {
 	Email string
-	Password string
 	Coloring bool
 }
 
@@ -33,7 +32,6 @@ var (
 		},
 		Swipe: Swipe{
 			Email: "foobar@example.com",
-			Password: "12345678",
 			Coloring: true,
 		},
 	}

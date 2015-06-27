@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"fmt"
 	"os"
+	"strings"
 	"encoding/json"
 	"mime/multipart"
 	"net/http"
@@ -47,18 +48,28 @@ func SwipeUpload() {
 		panic(err)
 	}
 
-	PostSwipeSlide(f)
+	PostSwipeSlide(f, conf)
 }
 
-func PostSwipeSlide(file *os.File) {
-	println("Uploading Markdown to www.swipe.to")
+func scan(defaultValue string) string{
+	var tmp string
+	fmt.Scanln(&tmp)
+	if strings.TrimSpace(tmp) == "" {
+		return defaultValue
+	}
+	return tmp
+}
 
-	var email string
-	fmt.Printf("Swipe Email: ")
-	fmt.Scanln(&email)
+func PostSwipeSlide(file *os.File, conf conf.Config) {
+	msg := ansi.Color("Input Swipe.to Account Info", "blue+b")
+	fmt.Println(msg)
 
-	fmt.Printf("Password: ")
+	fmt.Printf("  Swipe Email(default: %s)? ", conf.Swipe.Email)
+	email := scan(conf.Swipe.Email)
+
+	fmt.Printf("  Swipe Password: ")
 	pass := string(gopass.GetPasswd())
+	fmt.Println()
 
 	// Login to Swipe
 	client, err := Login(email, pass)
