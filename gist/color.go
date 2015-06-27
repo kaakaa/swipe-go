@@ -1,4 +1,4 @@
-package swipe
+package gist
 
 import (
 	"bytes"

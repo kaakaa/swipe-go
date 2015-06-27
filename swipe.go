@@ -1,6 +1,8 @@
 package swipe
 
 import (
+	"./conf"
+	"./gist"
 	"bytes"
 	"fmt"
 	"os"
@@ -14,57 +16,13 @@ import (
 	"github.com/howeyc/gopass"
 )
 
-const (
-	gisturl = "https://gist.githubusercontent.com/%s/%s/raw/%s"
-	SlideFileName = "slide.md"
-)
-
-func GetGistCode() (f *os.File, err error) {
-	// Get Gists Markdown
-	var user string
-	var id string
-
-	fmt.Printf("Gist User ID: ")
-	fmt.Scanln(&user)
-
-	fmt.Printf("Gist ID: ")
-	fmt.Scanln(&id)
-
-	gist := fmt.Sprintf(gisturl, user, id, SlideFileName)
-
-	println("Downloading Gist File => " + gist)
-
-	res, _ := http.Get(gist)
-	defer res.Body.Close()
-
-	if res.StatusCode != 200 {
-		msg := ansi.Color("Error: Gist File NotFound\n  => " + gist, "red+b")
-		return nil, fmt.Errorf(msg)
-	}
-
-	// Write Gists Markdown to temp file
-	f, _ = ioutil.TempFile(os.TempDir(), SlideFileName)
-	defer os.Remove(f.Name())
-
-	contents, _ := ioutil.ReadAll(res.Body)
-
-	// coloring
-	contents = Color(contents)
-
-	if err = ioutil.WriteFile(f.Name(), contents, 0755); err != nil {
-		msg := ansi.Color("Error: Gist File cannot Download\n  => " + gist, "red+b")
-		return nil, fmt.Errorf(msg)
-	}
-
-	size, _ := f.Stat()
-	fmt.Printf("Complete downloading (%d Bytes)\n\n", size.Size())
-	return f, nil
-}
-
 func SwipeUpload() {
-	f, err := GetGistCode()
+	conf, _ := conf.Parse("conf.json")
+
+	g := new(gist.Gist)
+	f, err := g.Download(conf)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 
 	PostSwipeSlide(f)
@@ -86,13 +44,12 @@ func PostSwipeSlide(file *os.File) {
 	// Create Doc
 	id, _ := CreateDoc(client)
 
-	fmt.Println("id: ", id)
 	// Upload Markdown
 	b, contenttype, _ := CreateMultipartBody(file, id)
 	if err = PostSlideFile(client, b, contenttype, id); err != nil {
 		msg := ansi.Color("Error: Slide Upload Error\n", "red+b")
 		fmt.Println(msg)
-		return
+		panic(err)
 	}
 
 	// result
@@ -123,7 +80,7 @@ type doc struct {
 func CreateDoc(client *http.Client) (id string, err error){
 	req, _ := http.NewRequest("POST", "https://www.swipe.to/edit/create", nil)
 	req.Header.Set("Referer", "https://www.swipe.to/home")
-	res, err2 := client.Do(req) 
+	res, err2 := client.Do(req)
 	if err2 != nil {
 		panic(err2)
 	}
@@ -131,8 +88,8 @@ func CreateDoc(client *http.Client) (id string, err error){
 
 	text, _ := ioutil.ReadAll(res.Body)
 
-	d := &doc{}
 	// get doc id
+	d := &doc{}
 	json.Unmarshal(text, &d)
 	return d.Id, nil
 }
