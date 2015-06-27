@@ -16,7 +16,6 @@ type Gist struct {
 
 const (
 	UrlTemplate = "https://gist.githubusercontent.com/%s/%s/raw/%s"
-	SlideFileName = "slide.md"
 )
 
 func scan(defaultValue string) string{
@@ -36,7 +35,7 @@ func (g *Gist) GetGistCode(conf conf.Config) ([]byte, error) {
 	fmt.Printf("Gist Document ID(default: %s)? ", conf.Gist.DocId)
 	g.id = scan(conf.Gist.DocId)
 	
-	url := fmt.Sprintf(UrlTemplate, g.user, g.id, SlideFileName)
+	url := fmt.Sprintf(UrlTemplate, g.user, g.id, conf.Gist.FileName)
 
 	println("Downloading Gist File => " + url)
 
@@ -62,7 +61,7 @@ func (g *Gist) Download(conf conf.Config) (f *os.File, err error) {
 	contents = Color(contents)
 
 	// Write Gists Markdown to temp file
-	f, _ = ioutil.TempFile(os.TempDir(), SlideFileName)
+	f, _ = ioutil.TempFile(os.TempDir(), conf.Gist.FileName)
 	defer os.Remove(f.Name())
 	if err = ioutil.WriteFile(f.Name(), contents, 0755); err != nil {
 		msg := ansi.Color("Error: Gist File cannot Download\n", "red+b")
