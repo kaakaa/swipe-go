@@ -4,6 +4,7 @@ import (
 	"../conf"
 	"fmt"
 	"os"
+	"strings"
 	"net/http"
 	"io/ioutil"
 	"github.com/mgutz/ansi"
@@ -18,16 +19,28 @@ const (
 	SlideFileName = "slide.md"
 )
 
-func (g *Gist) GetGistCode() ([]byte, error) {
-	fmt.Printf("Gist User ID: ")
-	fmt.Scanln(&g.user)
+func scan(defaultValue string) string{
+	var tmp string
+	fmt.Scanln(&tmp)
+	if strings.TrimSpace(tmp) == "" {
+		return defaultValue
+	}
+	return tmp
+}
 
-	fmt.Printf("Gist ID: ")
-	fmt.Scanln(&g.id)
+func (g *Gist) GetGistCode(conf conf.Config) ([]byte, error) {
+	// Make Gist document URL
+	fmt.Printf("Gist User ID(default: %s)? ", conf.Gist.User)
+	g.user = scan(conf.Gist.User)
+
+	fmt.Printf("Gist Document ID(default: %s)? ", conf.Gist.DocId)
+	g.id = scan(conf.Gist.DocId)
+	
 	url := fmt.Sprintf(UrlTemplate, g.user, g.id, SlideFileName)
 
 	println("Downloading Gist File => " + url)
 
+	// Download Gist document to temp file
 	res, _ := http.Get(url)
 	defer res.Body.Close()
 
@@ -40,7 +53,7 @@ func (g *Gist) GetGistCode() ([]byte, error) {
 }
 
 func (g *Gist) Download(conf conf.Config) (f *os.File, err error) {
-	contents, err := g.GetGistCode()
+	contents, err := g.GetGistCode(conf)
 	if err != nil {
 		return nil, err
 	}
