@@ -1,12 +1,12 @@
 package gist
 
 import (
-	"../conf"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
+	"github.com/kaakaa/swipe-go/conf"
 	"github.com/mgutz/ansi"
 )
 

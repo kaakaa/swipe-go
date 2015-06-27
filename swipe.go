@@ -1,8 +1,6 @@
 package swipe
 
 import (
-	"./conf"
-	"./gist"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -13,6 +11,8 @@ import (
 	"net/url"
 	"os"
 	"strings"
+	"github.com/kaakaa/swipe-go/conf"
+	"github.com/kaakaa/swipe-go/gist"
 	"github.com/mgutz/ansi"
 	"github.com/howeyc/gopass"
 )
