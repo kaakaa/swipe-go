@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"regexp"
 	"strings"
+	"time"
 	"math/rand"
 )
 
@@ -23,6 +24,7 @@ func Color(contents []byte) (s []byte){
 
 	design := designd(t,keys)
 	var buffer bytes.Buffer	
+	rand.Seed(time.Now().UnixNano())
 	for i, p := range pages {
 		// 見出し（Markdownの "====" ）を見つけたらデザインを変更する
 		if m, _ := regexp.MatchString("={4,}",p); m {
@@ -40,7 +42,8 @@ func Color(contents []byte) (s []byte){
 }
 
 func designd(t map[string]string, keys []string) (s string){
-	return t[keys[rand.Intn(len(keys))]]	
+	index := rand.Intn(len(keys))
+	return t[keys[index]]	
 }
 
 func templates()(m map[string]string) {
