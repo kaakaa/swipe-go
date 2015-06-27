@@ -3,10 +3,10 @@ package gist
 import (
 	"../conf"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"strings"
-	"net/http"
-	"io/ioutil"
 	"github.com/mgutz/ansi"
 )
 

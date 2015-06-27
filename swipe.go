@@ -4,15 +4,15 @@ import (
 	"./conf"
 	"./gist"
 	"bytes"
-	"fmt"
-	"os"
-	"strings"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
-	"io/ioutil"
+	"os"
+	"strings"
 	"github.com/mgutz/ansi"
 	"github.com/howeyc/gopass"
 )
@@ -67,15 +67,24 @@ func PostSwipeSlide(file *os.File, conf conf.Config) {
 	fmt.Printf("  Swipe Email(default: %s)? ", conf.Swipe.Email)
 	email := scan(conf.Swipe.Email)
 
-	fmt.Printf("  Swipe Password: ")
-	pass := string(gopass.GetPasswd())
+	fmt.Printf("  Swipe Password? ")
+	tempPass := string(gopass.GetPasswd())
+	
+	pass := conf.Swipe.Password
+	if strings.TrimSpace(tempPass) != "" {
+		pass = tempPass
+	}
+	
 	fmt.Println()
 
 	// Login to Swipe
-	client, err := Login(email, pass)
+	client, _ := Login(email, pass)
 
 	// Create Doc
-	id, _ := CreateDoc(client)
+	id, err := CreateDoc(client)
+	if err != nil {
+		return
+	}
 
 	// Upload Markdown
 	b, contenttype, _ := CreateMultipartBody(file, id)
@@ -86,10 +95,10 @@ func PostSwipeSlide(file *os.File, conf conf.Config) {
 	}
 
 	// result
-	fmt.Printf("Complete Uploading '%s/%s'\n", swipeInfo.EditUrl, id)
+	fmt.Printf("Complete Uploading ===> %s/%s\n", swipeInfo.EditUrl, id)
 }
 
-func Login(email string, pass string) (client *http.Client, err error) {
+func Login(email string, pass string) (client *http.Client, e error) {
 	cookieJar, _ := cookiejar.New(nil)
 
 	client = &http.Client {
@@ -120,6 +129,13 @@ func CreateDoc(client *http.Client) (id string, err error){
 	// get doc id
 	d := &doc{}
 	json.Unmarshal(text, &d)
+	
+	if strings.TrimSpace(d.Id) == "" {
+		msg := ansi.Color("error: Creating Swipe document is failed\nerror: Login is failed maybe.\n", "red+b")
+		fmt.Printf(msg)
+		return "", fmt.Errorf("Creating Swipe document is failed.")
+	}
+	
 	return d.Id, nil
 }
 

@@ -2,10 +2,10 @@ package gist
 
 import (
 	"bytes"
+	"math/rand"
 	"regexp"
 	"strings"
 	"time"
-	"math/rand"
 )
 
 const(

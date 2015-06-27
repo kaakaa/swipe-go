@@ -2,8 +2,8 @@ package conf
 
 import (
 	"io/ioutil"
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"github.com/mgutz/ansi"
 )
 
@@ -20,6 +20,7 @@ type Gist struct {
 
 type Swipe struct {
 	Email string
+	Password string
 	Coloring bool
 }
 
@@ -32,6 +33,7 @@ var (
 		},
 		Swipe: Swipe{
 			Email: "foobar@example.com",
+			Password: "",
 			Coloring: true,
 		},
 	}
