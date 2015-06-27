@@ -8,20 +8,22 @@ Create Swipe.to slide from Gists markdown file.
 Example
 =======
 
-* This [gists markdown](https://gist.github.com/kaakaa/29ceacc3a8fa7b86f6bd "gists markdown") transforms to [New deck - Swipe](https://www.swipe.to/0016ck)
-  * but including many bugs...
+* This [gists markdown](https://gist.github.com/kaakaa/29ceacc3a8fa7b86f6bd "gists markdown") transforms to [Swipe document](https://www.swipe.to/3966dy)
 
 Usage
 =====
 
-* go get this
+go get this repostiroy
+----------------------
 
 ```
 $ go get github.com/kaakaa/swipe-go
 ```
 
-* write main.go
+Write
+-----
 
+main.go
 ```
 package main
 
@@ -34,27 +36,52 @@ func main() {
 }
 ```
 
-* go run main.go
+Run
+---
 
 ```
 $ go run main.go
-Gist User ID: kaakaa
-Gist ID: 29ceacc3a8fa7b86f6bd
-Downloading Gist File => https://gist.githubusercontent.com/kaakaa/29ceacc3a8fa7b86f6bd/raw/slide.md
-truetruetrueComplete downloading (4780 Bytes)
+Gist Document Infomation
+  Gist User ID(default: kaakaa)?
+  Gist Document ID(default: 29ceacc3a8fa7b86f6bd)?
 
-Uploading Markdown to www.swipe.to
-Swipe Email: hoge@example.com
-Password:
-Complete Uploading => https://www.swipe.to/edit/00000000000000000000000000000000
+info: Downloading Gist File 'https://gist.githubusercontent.com/kaakaa/29ceacc3a8fa7b86f6bd/raw/slide.md'
+Complete Downloading (7153 Bytes)
+
+Input Swipe.to Account Info
+  Swipe Email(default: stooner.hoe@gmail.com)?
+  Swipe Password?
+
+Complete Uploading ===> https://www.swipe.to/edit/00000000000000000000000000000000
+
+```
+
+Configuration
+-------------
+
+* Follow is configuration file format for Gist / Swipe.to / slide format
+  * place conf.json in current directory
+
+conf.json
+```
+{
+	"Gist" : {
+		"User": "default",
+		"DocId": "abcdefghijklmnopqrst",
+    "FileName": "slide.md"
+	},
+	"Swipe" : {
+		"Email": "foobar@exmpale.com",
+		"Password": "pass",
+		"Coloring": true
+	}
+}
 ```
 
 Rules
 =====
 
-* Markdown file in Gists must be named `slide.md`
-
-* headers must be written in underline-ish style
+* Headers must be written in underline-ish style
 
 ```
 OK
