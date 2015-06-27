@@ -11,7 +11,7 @@ import (
 )
 
 type Gist struct {
-	user, id string
+	user, id, filename string
 }
 
 const (
@@ -31,14 +31,17 @@ func (g *Gist) GetGistCode(conf conf.Config) ([]byte, error) {
 	// Make Gist document URL
 	msg := ansi.Color("Gist Document Infomation", "blue+b")
 	fmt.Println(msg)
-	
+
 	fmt.Printf("  Gist User ID(default: %s)? ", conf.Gist.User)
 	g.user = scan(conf.Gist.User)
 
 	fmt.Printf("  Gist Document ID(default: %s)? ", conf.Gist.DocId)
 	g.id = scan(conf.Gist.DocId)
-	
-	url := fmt.Sprintf(UrlTemplate, g.user, g.id, conf.Gist.FileName)
+
+	fmt.Printf("  Upload file name(default: %s)? ", conf.Gist.FileName)
+	g.filename = scan(conf.Gist.FileName)
+
+	url := fmt.Sprintf(UrlTemplate, g.user, g.id, g.filename)
 
 	fmt.Println("")
 	fmt.Printf("info: Downloading Gist File '%s'\n",url)
