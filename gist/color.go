@@ -56,87 +56,87 @@ func templates()(m map[string]string) {
 		"MOCAK" : `
 <!-- background: #92117e -->
 <!-- color: #ffd595 -->
-<!-- font: verdana -->
+<!-- font: helvetica -->
 `,
 		"ReinaSofia" : `
 <!-- background: #9bd1e7 -->
 <!-- color: #72003c -->
-<!-- font: tradegothic -->
+<!-- font: helvetica -->
 `,
 		"Pompidou" : `
 <!-- background: #e4dadf -->
 <!-- color: #774c43 -->
-<!-- font: univers -->
+<!-- font: helvetica -->
 `,
 		"CCBB" : `
 <!-- background: #f1f16d -->
 <!-- color: #0d1c8b -->
-<!-- font: frutiger -->
+<!-- font: helvetica -->
 `,
 		"SMAK" : `
 <!-- background: #00acec -->
 <!-- color: #fff -->
-<!-- font: din -->
+<!-- font: helvetica -->
 `,
 		"LONDON" : `
 <!-- background: #6e391b -->
 <!-- color: #fff28c -->
-<!-- font: centurygothic -->
+<!-- font: helvetica -->
 `,
 		"Oslo" : `
 <!-- background: #50b187 -->
 <!-- color: #fff -->
-<!-- font: monaco -->
+<!-- font: helvetica -->
 `,
 		"Amsterdam" : `
 <!-- background: red -->
 <!-- color: #fff -->
-<!-- font: frutiger -->
+<!-- font: helvetica -->
 `,
 		"HongKong" : `
 <!-- background: #e9ca77 -->
 <!-- color: #9f031e -->
-<!-- font: futura -->
+<!-- font: helvetica -->
 `,
 		"Split" : `
 <!-- background: #c8e4f6 -->
 <!-- color: #15025e -->
-<!-- font: brandon -->
+<!-- font: helvetica -->
 `,
 		"Marrakech" : `
 <!-- background: #f8ebe5 -->
 <!-- color: #a10318 -->
-<!-- font: metronova -->
+<!-- font: helvetica -->
 `,
 		"SigmarPolke" : `
 <!-- background: #14174a -->
 <!-- color: #ffc8d9 -->
-<!-- font: din -->
+<!-- font: helvetica -->
 `,
 		"DavidHockney" : `
 <!-- background: #fffa28 -->
 <!-- color: #25a9ce -->
-<!-- font: centurygothic -->
+<!-- font: helvetica -->
 `,
 		"PabloPicasso" : `
 <!-- background: #e75e05 -->
 <!-- color: #ffd5fd -->
-<!-- font: sabon -->
+<!-- font: helvetica -->
 `,
 		"SalvadorDali" : `
 <!-- background: #ffb205 -->
 <!-- color: #a10100 -->
-<!-- font: metronova -->
+<!-- font: helvetica -->
 `,
 		"JacksonPollock" : `
 <!-- background: #000100 -->
 <!-- color: #feffd4 -->
-<!-- font: rockwell -->
+<!-- font: helvetica -->
 `,
 		"BarbaraHepworth" : `
 <!-- background: #6f6f6f -->
 <!-- color: #fff -->
-<!-- font: univers -->
+<!-- font: helvetica -->
 `,
 	}
 }
