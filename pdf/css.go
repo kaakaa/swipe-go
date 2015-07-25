@@ -7,7 +7,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func Make(url string){
+func MakeCss(url string){
 	doc, _ := goquery.NewDocument(url)
 
 	var buf bytes.Buffer
