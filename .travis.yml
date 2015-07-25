@@ -5,6 +5,11 @@ env:
         - "PATH=/home/travis/gopath/bin:$PATH"
 before_install:
         - go get github.com/mitchellh/gox
+        - go get github.com/mgutz/ansi
+        - go get github.com/howeyc/gopass
+        - go get github.com/PuerkitoBio/goquery
+        - go get github.com/mitchellh/gox
+
         - gox -build-toolchain
 after_success:
         - gox -output "dist/{.OS}_{.Arch}_{.Dir}
