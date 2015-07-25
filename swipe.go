@@ -13,8 +13,10 @@ import (
 	"strings"
 	"github.com/kaakaa/swipe-go/conf"
 	"github.com/kaakaa/swipe-go/gist"
+	"github.com/kaakaa/swipe-go/pdf"
 	"github.com/mgutz/ansi"
 	"github.com/howeyc/gopass"
+	"github.com/PuerkitoBio/goquery"
 )
 
 type Swipe struct {
@@ -23,6 +25,7 @@ type Swipe struct {
 	EditUrl string
 	CreateUrl string
 	UploadUrl string
+	MetaUrl string
 }
 
 type doc struct {
@@ -36,6 +39,7 @@ var (
 		EditUrl: "https://www.swipe.to/edit",
 		CreateUrl: "https://www.swipe.to/edit/create",
 		UploadUrl: "https://www.swipe.to/edit/upload",
+		MetaUrl: "https://www.swipe.to/edit/metadata",
 	}
 )
 
@@ -69,12 +73,12 @@ func PostSwipeSlide(file *os.File, conf conf.Config) {
 
 	fmt.Printf("  Swipe Password? ")
 	tempPass := string(gopass.GetPasswd())
-	
+
 	pass := conf.Swipe.Password
 	if strings.TrimSpace(tempPass) != "" {
 		pass = tempPass
 	}
-	
+
 	fmt.Println()
 
 	// Login to Swipe
@@ -86,6 +90,9 @@ func PostSwipeSlide(file *os.File, conf conf.Config) {
 		return
 	}
 
+	fmt.Println("Uploading to swipe.to...")
+	fmt.Println()
+
 	// Upload Markdown
 	b, contenttype, _ := CreateMultipartBody(file, id)
 	if err = PostSlideFile(client, b, contenttype, id); err != nil {
@@ -95,7 +102,60 @@ func PostSwipeSlide(file *os.File, conf conf.Config) {
 	}
 
 	// result
-	fmt.Printf("Complete Uploading ===> %s/%s\n", swipeInfo.EditUrl, id)
+	editurl := swipeInfo.EditUrl + "/" + id
+	fmt.Printf("Complete Uploading ===> %s\n", editurl)
+	fmt.Println()
+
+	// set slide privacy level to public
+	fmt.Println("Switch slide privacy level to Public...")
+	SwitchToPublic(client, id)
+
+	// get presentation url
+	fmt.Println("Get slide id for sharing...")
+	shareid := getPresentationUrl(client, id)
+
+	fmt.Println()
+
+	// output slide pdf file
+	swipepdf.Output(shareid)
+
+	fmt.Println()
+	fmt.Println("COMPLETE!")
+}
+
+func getPresentationUrl(client *http.Client, id string) (shareid string) {
+	editurl := swipeInfo.EditUrl + "/" + id
+	req, _ := http.NewRequest("GET", editurl, nil)
+	res, err := client.Do(req)
+
+	if err != nil {
+		panic(err)
+	}
+	if res.StatusCode != http.StatusOK {
+		e := fmt.Errorf("bad status: %s", res.Status)
+		panic(e)
+	}
+
+	doc, _ := goquery.NewDocumentFromResponse(res)
+	shareid, _ = doc.Find("#share-me").Attr("data-code")
+	return shareid
+}
+
+func SwitchToPublic(client *http.Client, id string) {
+	query := []byte("pid=" + id + "&" + "privacy=public")
+	req, _ := http.NewRequest("POST", swipeInfo.MetaUrl, bytes.NewBuffer(query))
+	req.Header.Set("Referer", swipeInfo.HomeUrl)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+
+	res, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		e := fmt.Errorf("bad status: %s", res.Status)
+		panic(e)
+	}
 }
 
 func Login(email string, pass string) (client *http.Client, e error) {
