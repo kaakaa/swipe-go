@@ -9,6 +9,7 @@ before_install:
         - go get github.com/howeyc/gopass
         - go get github.com/PuerkitoBio/goquery
         - go get github.com/mitchellh/gox
+        - go get github.com/kaakaa/swipe-go
 
         - gox -build-toolchain
 script: make
