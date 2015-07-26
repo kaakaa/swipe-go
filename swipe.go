@@ -189,13 +189,13 @@ func CreateDoc(client *http.Client) (id string, err error){
 	// get doc id
 	d := &doc{}
 	json.Unmarshal(text, &d)
-	
+
 	if strings.TrimSpace(d.Id) == "" {
 		msg := ansi.Color("error: Creating Swipe document is failed\nerror: Login is failed maybe.\n", "red+b")
 		fmt.Printf(msg)
 		return "", fmt.Errorf("Creating Swipe document is failed.")
 	}
-	
+
 	return d.Id, nil
 }
 
