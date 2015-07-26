@@ -1,3 +1,9 @@
+.PHONY: all
+
+all:
+        GOOS=windows GOARCH=386 go build -o swipe-go.exe
+        zip swipe-go-win32.zip swipe-go.exe
+
 language: go
 go:
         - 1.4
@@ -11,5 +17,15 @@ before_install:
         - go get github.com/mitchellh/gox
 
         - gox -build-toolchain
+script: make
+deploy:
+        provider: releases
+        api_key: 
+                secure: klyHgjzeWE96Dj89Y3Ft+tHkBfIaSXTTtDP/qRtMSwcQsBPwBjdXvjac/1+9mSmqJ+vDBd0DjMULbNzNgGyogSd8gGDqKBpjraxSKYRDFcBVItRGenOmQzIpvuryRkhGPBGLlqUpaRbd98ZNVQ2OJlhwwdWlfRo55z+jVhfxlX8=
+        file: swipe-go-win32.zip
+        skip_cleanup: true
+        all_branches: true
+        on:
+                tags: true
 after_success:
         - gox -output "dist/{.OS}_{.Arch}_{.Dir}
