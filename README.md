@@ -68,7 +68,7 @@ conf.json
 	"Gist" : {
 		"User": "default",
 		"DocId": "abcdefghijklmnopqrst",
-    "FileName": "slide.md"
+		"FileName": "slide.md"
 	},
 	"Swipe" : {
 		"Email": "foobar@exmpale.com",
