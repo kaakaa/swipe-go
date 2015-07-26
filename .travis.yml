@@ -16,7 +16,13 @@ deploy:
   provider: releases
   api_key:
     secure: vMk/DW4g3GfzIMwfi1UBv9DFvYegjzi1P8qWtXGZ2UOyjL2ggKD6QgoiARuJ6e7Jd20AnkvYEluvjTBRmbgMpuEBiecl8EgfxO3x7apx1JtZW4t22pJrmF/oDpJrCfBij2MoxRbxZ+GkWM0BgiA1TNCosFRNvx/yIeFpy6GwR/DZgRnM8FG7vLBd0N0GeeIvUDL/B7+CMiJpzHUf/JDJ+NOgMnLspZQo6lK50b+DeFGQFIP3gBEawRkgSnz4aISNzFrYMbeFS4+h0H1QqBGewv2z+fT9SdbI5fDWRmxNf9pz9aSPOKbdgsDj7ZYVSa5QF9r1x6X2PZvK9nnsX/bqLmN1Y1Y7bYBWmT1Cbf0TXA6ONp9fIKrSvjRW3qWARsWOyIqv5ION1AcEHBwrnHY0swzM8gqMxcsnh0W/HrvBvIb3reKP0veU4ZRnx38UyQ8Mpxx2dUiWbhjUw2j9Bmh4Z+2uNKeMlfldmS9RMVQpm/1xVKeSs+7dotgZsBeMcQufvLWAjLmrbJv2dBDaYjjYYidOHXAZ5rnzM39s4KtD9hHlOlNm7Aoj+utGN5plXr6449VD/1811RtL4D47lcZpAp8iGEOBM+f/N0+SFnP+LZs4Upb1J8SizpUxJuFuwohuG2h9wgLcG/U3+dsZo2qsNiQo9kagon5AdtnhQVGHjkM=
-  file: swipe-go-win32.zip
+  file:
+    - swipe-go-win32.zip
+    - swipe-go-win64.zip
+    - swipe-go-linux32.zip
+    - swipe-go-linux64.zip
+    - swipe-go-mac32.zip
+    - swipe-go-mac64.zip
   on:
     repo: kaakaa/swipe-go
 after_success:
