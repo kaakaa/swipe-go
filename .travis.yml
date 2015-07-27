@@ -23,7 +23,10 @@ deploy:
     - swipe-go-linux64.zip
     - swipe-go-mac32.zip
     - swipe-go-mac64.zip
+  skip_cleanup: true
+  all_branches: true
   on:
     repo: kaakaa/swipe-go
+    tags: true
 after_success:
   - gox -output "dist/{.OS}_{.Arch}_{.Dir}
