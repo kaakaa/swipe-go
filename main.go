@@ -1,7 +1,7 @@
 package main
 
 import(
-	"githu.com/kaakaa/swipe-go/swipe"
+	"github.com/kaakaa/swipe-go/swipe"
 )
 
 func main(){
