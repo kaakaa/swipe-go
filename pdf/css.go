@@ -2,12 +2,18 @@ package swipepdf
 
 import (
 	"bytes"
-	"io/ioutil"
 	"strconv"
 	"github.com/PuerkitoBio/goquery"
 )
 
+// make css file for coloring & pagination
 func MakeCss(url string){
+	content := getcss(url)
+
+	write("style.css", content)
+}
+
+func getcss(url string) (b []byte) {
 	doc, _ := goquery.NewDocument(url)
 
 	var buf bytes.Buffer
@@ -19,12 +25,6 @@ func MakeCss(url string){
 
 		buf.Write([]byte("#slides div:nth-of-type(" + strconv.Itoa(i+1) + ") div { color: " + color + "; background-color: " + bgcolor + "; }\n"))
 	})
-	write("style.css", buf)
-}
 
-func write(name string, content bytes.Buffer){
-	err := ioutil.WriteFile(name, content.Bytes(), 0644)
-	if err != nil {
-		panic(err)
-	}
+	return buf.Bytes()
 }
